@@ -1,0 +1,132 @@
+.banner{
+    background-color: #043873;
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 100px;
+}
+.bannertxt-container{
+    flex: 1;
+    text-align: left;
+    transform: translateY(50px); 
+}
+.bannertxt-container h2{
+    margin: 0px;
+}
+.bannertxt-container p{
+    font-size: 15px;
+    font-weight: 200;
+}
+.bannerimage-container{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    transform: translateY(-50px); 
+}
+.bannerimage-container img{
+    width: 35vw;
+    height: 55vh;
+    object-fit: contain;
+}
+.button-container{
+    text-align: center;
+    padding: 20px;
+}
+
+button{
+    background-color: #4F9CF9;
+    color: #FFFFFF;
+    border: none;
+    padding: 20px;
+    font-size: medium;
+    cursor: pointer;
+} 
+.calc{
+    display: flex;
+    align-items: center;
+    padding: 25px 100px;
+}
+.calc1{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    padding: 25px 100px;
+}
+.line{
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    margin: 0;
+}
+.text-container{
+    flex: 1;
+    transform: translateY(50px); 
+}
+.text-container h2{
+    text-align: center;
+}
+.text-container p, .bottom-container p{
+    font-weight: 200;
+}
+.img-container{
+    flex: 1;
+    text-align: center;
+    transform: translateY(-50px); 
+}
+.img-container img{
+    width: 400px;
+}
+.bottom-container{
+    text-align: center;
+}
+.bottom-container button{
+    width: 70%;
+    font-size: small;
+}
+ .content {
+    opacity: 0;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition-delay: .25s;
+}
+
+.content.visible {
+    opacity: 1;
+    transform: translateY(0);
+} 
+
+.slideshow img {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+  
+.slideshow img.fade-in {
+    opacity: 1;
+}
+
+@media (min-width:768px){
+    .bottom-container{
+        width: 25%;
+    }
+}
+@media (max-width:768px) {
+    .banner{
+        flex-direction: column;
+        flex-wrap: nowrap;
+        padding: 10%;
+    }
+    .calc, .calc1{
+        flex-direction: column;
+        padding: 10px 30px;
+    }
+    .bannerimage-container img{
+        width: 100vw;
+        height: 40vh; 
+        object-fit: contain;
+    }
+    .img-container img{
+        width: 300px;
+    }
+}

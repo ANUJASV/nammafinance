@@ -1,0 +1,36 @@
+<section class="calculator">
+    <div class="calc-header">
+        <h1>EMI Calculator</h1>
+        <p>Plan your finances wisely and Make borrowing stress-free with our EMI Calculator! Know your monthly installments instantly 
+            and plan your finances with confidence. Stay ahead of your loans, reduce financial strain, and take charge of your
+             future today!
+        </p>
+    </div>
+    <div class="calculator-container">
+        <mat-card>
+            <mat-card-content>
+                <div class="form">
+                    <div>Loan Amount (₹)</div>
+                    <div><input type="text" [formControl]="loanAmount"> </div>
+                    <div>Rate Of Interest (% p.a.)</div>
+                    <div><input type="text" [formControl]="interestRate"> </div>
+                    <div>Loan Tenure</div>
+                    <div><input type="text" [formControl]="tenure"> </div>
+                    <div class="button-container">
+                        <button (click)="calcFlatRate()">Calculate Now  → </button>
+                    </div>
+                </div>
+                <div *ngIf="loanAmt>0 && totalInterest>0 && repaymentAmt>0" class="chart">
+                    <div class="textinsidechart">
+                        <span>Repayment Amount</span>
+                        <span>₹{{repaymentAmt}}</span>
+                    </div>
+                    <ngx-charts-pie-chart [results]="result" [view]="utilservice.view" [doughnut]=true [scheme]="utilservice.colorScheme" >
+                    </ngx-charts-pie-chart>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</section>
+
+

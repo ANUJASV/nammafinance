@@ -1,0 +1,179 @@
+*{
+    color: #043873;
+}
+.calculator{
+    padding: 3rem 7rem;
+}
+h1{
+    margin: 0;
+}
+.calculator-container{
+    display: flex;
+    justify-content: center;
+}
+mat-card{
+    background-color: #F0F5FF;
+    width: fit-content;
+}
+mat-card-content{
+    display: flex;
+    flex-direction: row;
+    column-gap: 50px;
+}
+.form{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    padding: 10px;
+}
+.input-container{
+    display: flex;
+    justify-content: space-between;
+    column-gap: 15px;
+}
+input:focus {
+    border: 2px solid #043873 !important;
+    outline: none !important; /* Remove default outline */
+  }
+.input-container input{
+    width: 120px;
+    border-radius: 40px;
+    border: 1px solid;
+    text-align: center;
+    height: 40px;
+}
+
+.singleinput-container{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+    align-items: center;
+    column-gap: 15px;
+}
+.button-container{
+    text-align: center;
+    padding: 20px;
+}
+
+button{
+    background-color: #4F9CF9;
+    color: #FFFFFF;
+    border: none;
+    padding: 20px;
+    font-size: medium;
+    cursor: pointer;
+}
+.chart{
+    flex: 1;
+    flex-shrink: unset;
+}
+.linechart-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+}
+.textinsidechart{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 40%;
+    left: 66%;
+    font-size: large;
+    font-weight: bold;
+}
+p, ul{
+    font-size: 15px;
+    font-weight: 300;
+}
+.toggle-container {
+    width: 60px;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    position: relative;
+    border: 2px solid #ddd;
+  }
+  
+  .toggle-button {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .toggle-button.active {
+    background-color: #007bff;
+  }
+  
+  .icon {
+    color: gray;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .toggle-button.active .icon {
+    color: white;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+@media (min-width:768px){
+    mat-card{
+        min-width: 400px;
+        padding: 1rem;
+    }
+    .toggleForm{
+        position: absolute;
+        right: 0;
+        padding-right: 10px;
+    }
+    .table-container{
+        width: 50rem;
+        margin: 20px auto;
+        display: flex;
+        justify-content: center;
+      }
+}
+@media(max-width:768px){
+    .calculator{
+        padding: 2rem;
+    }
+    .calculator-container, button{
+        font-size: 15px;
+    }
+    mat-card-content{
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }    
+    .input-container input{
+        width: 100px;
+    }
+    .button-container{
+        display: flex;
+        justify-content:space-around;
+    }
+    .textinsidechart{
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        top: 145px;
+        left: 105px;
+        font-size: 15px;
+        font-weight: 500;
+    }
+    .table-container{
+        width: 20rem;
+        margin: 20px auto;
+        overflow-x: auto;
+    }
+}

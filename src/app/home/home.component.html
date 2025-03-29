@@ -1,0 +1,102 @@
+<div class="banner">
+    <div class="bannertxt-container content">
+        <h2>Empower your future with our Free Financial Calculators</h2>
+        <p>Financial Calculators to plan your finances and investments wisely with less effort</p>
+        <div class="button-container">
+            <button mat-fab extended (click)="scrollToCalculators()" >Explore Calculators</button>
+        </div>
+    </div>
+    <div class="bannerimage-container content">
+        <div class="slideshow">
+            <img [src]="images[currentIndex]" [class.fade-in]="fadeIn" class="slide">
+        </div>
+    </div>
+</div>
+<section class="Calculators">
+    <div class="calc">
+        <div class="text-container content">
+            <h2>EMI Calculator</h2>
+            <p>Easily calculate your EMI and plan your repayments with confidence. Get Accurate results in seconds and make informed financal decisions!</p>
+            <div class="button-container">
+                <button mat-fab extended (click)="this.service.navigateToEMI()" >Try it Out!</button>
+            </div>
+        </div>
+        <div class="img-container content">
+            <img src="emiimg.jpg" alt="emiimg">
+        </div>
+    </div>
+    <div class="line"></div>
+    <div class="calc1">
+        <div class="text-container content">
+            <h2>PPF Calculator</h2>
+            <p>Secure your future with smart planning!  Our PPF Calculator helps you estimate returns and track growth, and make informed investments. Plan today for a worry-free tomorrow!</p>
+            <div class="button-container">
+                <button mat-fab extended (click)="this.service.navigateToPPF()">Try it Out!</button>         
+            </div>
+        </div>
+        <div class="img-container content">
+            <img src="ppfimg.jpg" alt="ppfimg">
+        </div>
+    </div>
+    <div class="line"></div>
+    <div class="calc">
+        <div class="text-container content">
+            <h2>SIP Calculator</h2>
+            <p>Turn your small investments into big savings!  Use our SIP Calculator to create long-term wealth. Get clear projections and plan your financial future with confidence!</p>
+            <div class="button-container">
+                <button mat-fab extended (click)="this.service.navigateToSIP()">Try it Out!</button>              
+            </div>
+        </div>
+        <div class="img-container content">
+            <img src="sipimg.jpg" alt="sipimg">
+        </div>
+    </div>
+    <div class="line"></div>
+    <div class="calc1">
+        <div class="text-container content">
+            <h2>Tax Calculator</h2>
+            <p>Take the guesswork out of taxes! Simplify your tax calculations in seconds with our smart tax calculator. Save more, stress less! Make every hard-earned money count!</p>
+            <div class="button-container">
+                <button mat-fab extended (click)="this.service.navigateToTAX()">Try it Out!</button>              
+            </div>
+        </div>
+        <div class="img-container content">
+            <img src="taximg.jpg" alt="taximg">
+        </div>
+    </div>
+    <div class="line"></div>
+    <div class="calc">
+        <div class="text-container content">
+            <h2>FD Calculator</h2>
+            <p>Invest with confidence! Know your FD returns instantly!  Use our FD Calculator to calculate your returns and plan your fixed deposit investments wisely. Secure your future with guaranteed growth!</p>
+            <div class="button-container">
+                <button mat-fab extended>Try it Out!</button>                
+            </div>
+        </div>
+        <div class="img-container content">
+            <img src="FDimg.jpg" alt="fdimg">
+        </div>
+    </div>
+    <div class="line"></div>
+    <div class="calc1">
+        <div class="text-container content">
+            <h2>RD Calculator</h2>
+            <p>Grow your savings step by step! Use our RD Calculator  to see how your monthly deposits turn into a secure financial cushion. Turn your monthly savings into a jackpot! Start Now!</p>
+            <div class="button-container">
+                <button mat-fab extended>Try it Out!</button>                
+            </div>
+        </div>
+        <div class="img-container content">
+            <img src="RDimg.jpg" alt="rdimg">
+        </div>
+    </div>
+</section>
+<div class="banner">
+    <div class="bottom-container">
+        <h1>Try Our Financial Calculators</h1>
+        <p>Get started for free</p>
+        <div class="button-container">
+            <button mat-fab extended (click)="scrollToCalculators()">Try Calculators → </button>
+        </div>
+    </div>
+</div>

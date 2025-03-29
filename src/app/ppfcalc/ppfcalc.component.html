@@ -1,0 +1,165 @@
+<section class="calculator">
+    <div class="calc-header">
+        <h1>PPF Calculator</h1>
+        <p>Secure your future with smart savings!  Our PPF Calculator helps you estimate your returns and maturity amount effortlessly. Enjoy tax-free growth and guaranteed returns over time. Plan your long-term investments with confidence. Start building wealth today!</p>
+    </div>
+    <div class="calculator-container">
+        <mat-card>
+            <mat-card-content>
+                <div class="form">
+                    <div>Yearly Investment (₹)</div>
+                    <div class="input-container">
+                        <mat-slider min="500" max="150000" step="500">
+                            <input matSliderThumb [formControl]="yearlyInvestment" [value]="yearlyInvestment.value">
+                        </mat-slider>
+                        <input type="text" [formControl]="yearlyInvestment" [value]="yearlyInvestment.value">
+                    </div>
+                    <div>Time Period (Yrs)</div>
+                    <div class="input-container">
+                        <mat-slider min="15" max="50" step="1">
+                            <input matSliderThumb [formControl]="investmentPeriod" [value]="investmentPeriod.value">
+                        </mat-slider>
+                        <input type="text" [formControl]="investmentPeriod" [value]="investmentPeriod.value">
+                    </div>
+                    <div class="singleinput-container">
+                        <div>Rate Of Interest (% p.a.)</div>
+                        <div class="input-container">
+                            <input type="text" [formControl]="rateOfInterest" [value]="rateOfInterest.value" readonly>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <button mat-fab extended (click)="calcinvesment()"> Calculate</button>                                
+                    </div>
+                </div>
+                <form [formGroup]="toggleForm" class="toggleForm">
+                    <div class="toggle-container" (click)="toggleChart()">
+                        <div class="toggle-button" [class.active]="isChecked">
+                            <mat-icon class="icon">show_chart</mat-icon>
+                        </div>
+                        <div class="toggle-button" [class.active]="!isChecked">
+                            <mat-icon class="icon">pie_chart</mat-icon>
+                        </div>
+                    </div>
+                </form>
+                
+                <div *ngIf="maturityValue > 0 && investedAmount > 0 && interestEarned >= 0">
+                    <div *ngIf="!isChecked" class="chart">
+                        <div class="textinsidechart">
+                            <span>Maturity Value</span>
+                            <span>₹{{ maturityValue }}</span>
+                        </div>
+                        <ngx-charts-pie-chart 
+                            [results]="result" 
+                            [view]="utilservice.view" 
+                            [doughnut]="true" 
+                            [scheme]="utilservice.colorScheme">
+                        </ngx-charts-pie-chart>
+                    </div>
+                
+                    <div *ngIf="isChecked" class="linechart-container">
+                        <h3>Maturity Value: ₹ {{ maturityValue }}</h3>
+                        <ngx-charts-area-chart 
+                            [view]="utilservice.areachartview" 
+                            [results]="linechartresult" 
+                            [xAxis]="true" 
+                            [showXAxisLabel]="true" 
+                            [xAxisLabel]="'Years'" 
+                            [autoScale]="true" 
+                            [gradient]="true" 
+                            [timeline]="true" 
+                            [scheme]="utilservice.customColorScheme">
+                        </ngx-charts-area-chart>
+                    </div>
+                </div>                
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div *ngIf="maturityValue > 0 && investedAmount > 0 && interestEarned >= 0" class="table-container">
+        <table mat-table [dataSource]="ppfTable" class="mat-elevation-z8">
+      
+          <!-- Year Column -->
+          <ng-container matColumnDef="year">
+            <th mat-header-cell *matHeaderCellDef> Year </th>
+            <td mat-cell *matCellDef="let element"> {{ element.year }} </td>
+          </ng-container>
+
+          <!-- Opening Balance Column -->
+          <ng-container matColumnDef="OpeningBalance">
+            <th mat-header-cell *matHeaderCellDef> Opening Balance </th>
+            <td mat-cell *matCellDef="let element"> {{ element.OpeningBalance | currency:'INR' }} </td>
+          </ng-container>
+      
+          <!-- Invested Amount Column -->
+          <ng-container matColumnDef="InvestedAmount">
+            <th mat-header-cell *matHeaderCellDef> Invested Amount </th>
+            <td mat-cell *matCellDef="let element"> {{ element.InvestedAmount | currency:'INR' }} </td>
+          </ng-container>
+      
+          <!-- Interest Earned Column -->
+          <ng-container matColumnDef="InterestEarned">
+            <th mat-header-cell *matHeaderCellDef> Interest Earned </th>
+            <td mat-cell *matCellDef="let element"> {{ element.InterestEarned | currency:'INR' }} </td>
+          </ng-container>
+      
+          <!-- Maturity Amount Column -->
+          <ng-container matColumnDef="MaturityAmount">
+            <th mat-header-cell *matHeaderCellDef> Closing Balance </th>
+            <td mat-cell *matCellDef="let element"> {{ element.MaturityAmount | currency:'INR' }} </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="['year', 'OpeningBalance', 'InvestedAmount', 'InterestEarned', 'MaturityAmount']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['year', 'OpeningBalance', 'InvestedAmount', 'InterestEarned', 'MaturityAmount'];"></tr>
+        </table>
+        
+    </div>
+    <div *ngIf="maturityValue > 0 && investedAmount > 0 && interestEarned >= 0"  class="button-container">
+        <button mat-fab extended (click)="utilservice.exportDataToExcel(ppfTable,'PPFCalculator')"> 
+            <mat-icon>save_alt</mat-icon>
+            Download
+        </button>                                
+    </div> 
+    <div class="description">
+        <div>
+            <h3>What is PPF? </h3>
+            <p>The Public Provident Fund (PPF) is a long-term savings scheme launched by the Government of India to encourage individuals to save and grow their money securely. It offers a fixed interest rate, which is revised quarterly, and provides tax-free returns under the Exempt-Exempt-Exempt (EEE) category.
+                <br>
+                PPF is designed for those who want a safe investment option with guaranteed returns while enjoying tax benefits. The scheme comes with a 15-year lock-in period, ensuring disciplined savings, but it also allows partial withdrawals and loan facilities after a few years. It is an excellent option for retirement planning, long-term wealth creation, and financial security.
+            </p>
+        </div>
+        <div>
+            <h3>Why we need PPF ?</h3>
+            <p>
+                PPF is one of the most reliable and secure investment options available in India. Here’s why it is important:
+            </p>
+            <ul>
+                <li>Guaranteed & Risk-Free Returns – Since PPF is backed by the Government of India, it is completely safe from market fluctuations. Unlike stocks and mutual funds, it offers stable and predictable returns.</li>
+                <li>Tax Benefits at All Stages – PPF is under the EEE (Exempt-Exempt-Exempt) category, meaning:
+                    <ul>
+                        <li>Deposits made in a PPF account qualify for tax deductions under Section 80C (up to ₹1.5 lakh per year).</li>
+                        <li>The interest earned is tax-free, unlike fixed deposits or other schemes.</li>
+                        <li>The maturity amount is also completely tax-free.</li>
+                    </ul>
+                </li>
+                <li>Partial Withdrawals for Emergency Needs – Although PPF has a 15-year tenure, it allows partial withdrawals from the 7th year onwards, making it a great option for education, home purchase, or medical needs.</li>
+                <li>Loan Facility – Need funds? You can take a loan against your PPF balance from the 3rd to 6th year at a lower interest rate, making it a useful backup in financial emergencies.</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Benefits of PPF Account</h3>
+            <p>PPF is a powerful tool for long-term financial planning. Here are its key benefits:</p>
+            <ul>
+                <li>100% Government-Backed & Secure – PPF is a safe investment with zero risk of losing money.</li>
+                <li>Triple Tax Benefits (EEE Category) – Enjoy tax-free deposits, tax-free interest, and tax-free maturity.</li>
+                <li>Higher Interest Rate than FDs – The interest rate on PPF is generally higher than that of savings accounts and many fixed deposits.</li>
+                <li>Wealth Creation Through Compounding – The long tenure and compounding effect help accumulate a large corpus over time.</li>
+                <li>Flexible Contributions – You can invest monthly, quarterly, or yearly as per your convenience.</li>
+                <li>Retirement Security – PPF acts as a pension fund, ensuring financial stability in old age.</li>
+                <li>Easily Transferable – You can transfer your PPF account across banks and post offices anywhere in India.</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Final Thoughts</h3>
+            <p>PPF is one of the best savings instruments for risk-averse investors looking for guaranteed, tax-free returns. Whether you are planning for your child’s education, home purchase, or retirement, investing in PPF ensures financial security and long-term wealth growth.</p>
+        </div>
+    </div>
+</section>

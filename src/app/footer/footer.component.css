@@ -1,0 +1,40 @@
+*{
+    background-color: #043873;
+    color: #FFFFFF;
+}
+.footer{
+    padding: 0px 20px;
+    display: grid;
+    column-gap: 15%;
+    justify-content: center;
+}
+.resource-list{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.pagedesc p, .resource-list, .trycalc-container p{
+    font-weight: lighter;
+    font-size: small;
+}
+.button-container{
+    text-align: center;
+}
+.button-container button{
+    background-color: #4F9CF9;
+    border: none;
+    padding: 15px;
+    font-size: small;
+    color: #FFFFFF;
+}
+.copyright{
+    text-align: center;
+    font-size: small;
+    font-weight: lighter;
+    padding: 10px;
+}
+@media (min-width:768px){
+    .footer{
+        grid-template-columns: 20% 20% 20%;
+    }
+}
