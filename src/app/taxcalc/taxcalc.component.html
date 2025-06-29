@@ -1,95 +1,143 @@
 <section class="calculator">
     <div class="calc-header">
-        <h1>Tax Calculator</h1>
-        <p>Keep more of your hard-earned money! Why pay more when you can save smart? Our Income Tax Calculator helps you estimate your tax liability, claim deductions, and optimize your savings effortlessly. Stay tax-ready, maximize exemptions, and keep more of your earnings. Plan better today for a stress-free tomorrow!</p>
+        <h1><span>Income Tax</span> Calculator</h1>
+        <p>Estimate your income tax liability in just a few steps. Compare old vs. new regimes, apply deductions, and see how smart investments can reduce your taxes. Tailored for both salaried and self-employed individuals.</p>
+    </div>
+    <div class="calculator-container">
+        <mat-card>
+            <mat-card-content>
+                <mat-tab-group #tabGroup>
+                    <div class="form">
+                        <mat-tab label="Basic Details">
+                            <div class="singleinput-container">
+                                <div class="tag">Assessment year</div>
+                                <div class="input-container">
+                                    <input type="text" value="2025-2026">
+                                </div>
+                            </div>  
+                            <div class="singleinput-container">
+                                <div class="tag">Age category</div>
+                                <select class="dropdown" [formControl]="ageCategory">
+                                    <option>Below 60</option>
+                                    <option>60 to 80</option>
+                                    <option>80 & above</option>
+                                </select>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Income Details">
+                            <div class="income-grid">
+                                <div class="singleinput-container">
+                                    <div class="tag">Income from salary <mat-icon matTooltip="Salary before reducing HRA, LTA, standard deductions & professional tax. If applicable, reduce leave encashment (max: 25L)" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="incomeFromSalary">
+                                    </div>
+                                </div>
+                                <div class="singleinput-container">
+                                    <div class="tag">Income from interest <mat-icon matTooltip="Includes interest from savings bank, deposits and other interest" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="incomeFromInterest">
+                                    </div>
+                                </div>
+                                <div class="singleinput-container">
+                                    <div class="tag">Rental income <mat-icon matTooltip="Annual rent received on let-out property (Standard deduction @30% will be auto calculated)" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="rentalIncome">
+                                    </div>
+                                </div>
+                                <div class="singleinput-container">
+                                    <div class="tag">Income from digital assets <mat-icon matTooltip="Net Income from Digital Assets, taxed at 30%" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="digitalAssetsIncome">
+                                    </div>
+                                </div>
+                                <div class="singleinput-container">
+                                    <div class="tag">Exempt allowances <mat-icon matTooltip="HRA, LTA, Professional Tax and any Other Exemptions" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="exemptAllowances">
+                                    </div>
+                                </div>
+                                <div class="singleinput-container">
+                                    <div class="tag">Interest on home loan - Self occupied <mat-icon matTooltip="Interest paid on housing loan taken for self-occupied property" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="selfOccupiedIncome">
+                                    </div>
+                                </div>
+                                <div class="singleinput-container">
+                                    <div class="tag">Interest on Home Loan- Let Out <mat-icon matTooltip="Interest paid on housing loan taken for rented/let-out property" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="letOutIncome">
+                                    </div>
+                                </div>
+                                <div class="singleinput-container">
+                                    <div class="tag">Other income <mat-icon matTooltip="Includes taxable freelancing income or any other taxable income" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="otherIncome">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="proceed-container">
+                                <a (click)="goToNextTab()">Continue</a>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Deductions">
+                            <div class="income-grid">
+                                <div class="singleinput-container">
+                                    <div class="tag">Deductions - 80C <mat-icon matTooltip="Amount invested/paid in tax saving instruments such as PPF, ELSS mutual funds, LIC premium, etc. (max: 1.5L)" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="ded80C">
+                                    </div>
+                                </div>
+                                <div class="singleinput-container">
+                                    <div class="tag">Deductions - 80D <mat-icon matTooltip="Medical premium & preventive health checkup fees paid for self & family including parents" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="ded80D">
+                                    </div>
+                                </div>
+                                <div class="singleinput-container">
+                                    <div class="tag">Interest on housing loan - 80EEA <mat-icon matTooltip="Amount of interest paid on housing loan sanctioned during FY 2022-2023 (max: 1.5L)" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="ded80EEA">
+                                    </div>
+                                </div>
+                                <div class="singleinput-container">
+                                    <div class="tag">Employer’s contribution to NPS - 80CCD(2) <mat-icon matTooltip="Amount of contributions made by employer to the National Pension Scheme (NPS) under Section 80CCD(2)" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="ded80CCD2">
+                                    </div>
+                                </div>
+                                <div class="singleinput-container">
+                                    <div class="tag">Interest from deposits - 80TTA <mat-icon matTooltip="Amount of interest income on deposits in savings account (includes fixed/recurring deposit interest in case of senior citizen)" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="ded80TTA">
+                                    </div>
+                                </div>
+                                <div class="singleinput-container">
+                                    <div class="tag">Donations to charity - 80G <mat-icon matTooltip="Amount paid as donation to charitable insitutions or certain recognized funds" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="ded80G">
+                                    </div>
+                                </div>
+                                <div class="singleinput-container">
+                                    <div class="tag">Employee’s contribution to NPS - 80CCD <mat-icon matTooltip="Includes voluntary contribution to National Pension Scheme (NPS) under section 80CCD(1) and 80CCD(1B)" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="ded80CCD">
+                                    </div>
+                                </div>
+                                <div class="singleinput-container">
+                                    <div class="tag">Any other deduction <mat-icon matTooltip="Enter the deduction amount to be claimed under any other sections not listed above" matTooltipPosition="right">info_outline</mat-icon></div>
+                                    <div class="input-container">
+                                        <input type="text" [formControl]="otherdeductions">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="proceed-container">
+                                <a>Calculate</a>
+                            </div>
+                        </mat-tab>   
+                    </div>
+                </mat-tab-group>
+                
+            </mat-card-content>
+        </mat-card>
     </div>
 </section>
-
-<!-- <div class="calculator">
-    <mat-card>
-        <mat-card-content class="bgcard">
-            <div class="description">
-                <div class="descriptionstyle">
-                    <div>
-                        <h2 class="qq">What is EMI ?</h2>
-                        <p>An <b>EMI (Equated Monthly Installment)</b> is a fixed payment amount made by a borrower to a lender at a 
-                            specified date each calendar month. The EMIs are used to pay off both interest and principal each month, 
-                            so that over a specified number of years, the loan is paid off in full. In the most common types of loans—such as real estate mortgages, auto loans, and student loans—the 
-                            borrower makes fixed periodic payments to the lender over several years to retire the loan.
-                        </p>
-                    </div>
-                    <div>
-                        <h2 class="qq">How an Equated Monthly Installment (EMI) Works ?</h2>
-                        <p>EMIs differ from variable payment plans, in which the borrower can pay higher amounts at his or her 
-                            discretion. In EMI plans borrowers are usually only allowed one fixed payment amount each month.
-                        </p>
-                        <p>The benefit of an EMI for borrowers is that they know precisely how much money they will need to pay 
-                            toward their loan each month, which can make personal budgeting easier. The benefit to lenders 
-                            (or investors the loan is sold to) is that they can count on a steady, predictable income stream from 
-                            the loan interest.
-                        </p>
-                        <p>
-                            The EMI can be calculated using either the flat-rate method or the reducing-balance (aks the reduce-balance) method.
-                        </p>
-                    </div>
-                    <div>
-                        <h2 class="qq">How is EMI deducted from a credit card?</h2>
-                        <p>As soon as you purchase something on a credit card with an EMI option (that is, doesn't demand payment in 
-                            full each month), your card's available credit limit is reduced by the total cost of the goods or service. 
-                            The EMI on credit cards then works much like a home loan or a personal loan: You pay back the principal 
-                            and interest each month, gradually reducing your debt over some time until you pay it off in full. EMI is 
-                            deducted from a credit card using the reduce-balance method.
-                        </p>
-                    </div>
-                    <div>
-                        <h2 class="qq">Why is EMI Important?</h2>
-                        <p>EMIs make it possible to afford big purchases without paying the entire amount upfront. Here’s why EMI is beneficial:</p>
-                        <ul>
-                            <li><b>Makes Expensive Purchases Affordable</b></li>
-                            <ul>
-                                <li>Buying a house, car, or electronic gadgets becomes easier as the cost is spread over time.</li>
-                                <li>Instead of paying ₹10 lakh at once, one can pay ₹25,000 per month for 4 years.</li>
-                            </ul>
-                            <li><b> Fixed Monthly Payments Ensure Stability</b></li>
-                            <ul>
-                                <li>Since the EMI amount is fixed, borrowers can plan their monthly expenses efficiently.</li>
-                                <li>No sudden large payments, reducing financial stress.</li>
-                            </ul>
-                            <li><b>Encourages Asset Ownership</b></li>
-                            <ul>
-                                <li>Home loans, car loans, and personal loans allow people to own assets while repaying over time.</li>
-                            </ul>
-                            <li><b>Builds a Good Credit Score</b></li>
-                            <ul>
-                                <li>Timely EMI payments improve credit history, making future loan approvals easier.</li>
-                                <li>A good credit score results in lower interest rates on future loans</li>
-                            </ul>
-                            <li><b>Flexibility in Loan Tenure</b></li>
-                            <ul>
-                                <li>Borrowers can choose between:
-                                    <ul>
-                                        <li>Shorter tenure (Higher EMI, less interest)</li>
-                                        <li>Longer tenure (Lower EMI, more interest)</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </ul>
-                    </div>
-                    <div>
-                        <h2 class="qq">Final Thoughts</h2>
-                        <p><b>EMI is a convenient repayment system</b> hat allows people to buy expensive items while managing 
-                            their finances effectively. Understanding how EMI works helps borrowers choose the right loan tenure 
-                            and interest type to minimize costs.
-                        </p>
-                        <ul>
-                            <li><b>If affordability is the key concern </b>→ Choose a longer tenure for lower EMIs.</li>
-                            <li><b>If minimizing interest payments is the goal</b> → Opt for a shorter tenure.</li>
-                            <li> Always check whether the loan follows a <b>flat rate or reducing balance method</b> 
-                                to ensure transparency.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
-</div> -->

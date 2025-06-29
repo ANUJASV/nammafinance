@@ -1,7 +1,7 @@
 <section class="calculator">
     <div class="calc-header">
-        <h1>PPF Calculator</h1>
-        <p>Secure your future with smart savings!  Our PPF Calculator helps you estimate your returns and maturity amount effortlessly. Enjoy tax-free growth and guaranteed returns over time. Plan your long-term investments with confidence. Start building wealth today!</p>
+        <h1><span>Public Provident Fund </span>Calculator</h1>
+        <p>Plan your retirement with confidence. The PPF calculator helps you estimate the maturity amount and total interest earned based on your yearly contributions. It’s a great tool for long-term tax-saving investments and understanding the power of compounding.</p>
     </div>
     <div class="calculator-container">
         <mat-card>
@@ -40,9 +40,8 @@
                             <mat-icon class="icon">pie_chart</mat-icon>
                         </div>
                     </div>
-                </form>
-                
-                <div *ngIf="maturityValue > 0 && investedAmount > 0 && interestEarned >= 0">
+                </form>        
+                <div>
                     <div *ngIf="!isChecked" class="chart">
                         <div class="textinsidechart">
                             <span>Maturity Value</span>
@@ -74,7 +73,7 @@
             </mat-card-content>
         </mat-card>
     </div>
-    <div *ngIf="maturityValue > 0 && investedAmount > 0 && interestEarned >= 0" class="table-container">
+    <div class="table-container">
         <table mat-table [dataSource]="ppfTable" class="mat-elevation-z8">
       
           <!-- Year Column -->
@@ -112,10 +111,10 @@
         </table>
         
     </div>
-    <div *ngIf="maturityValue > 0 && investedAmount > 0 && interestEarned >= 0"  class="button-container">
+    <div class="button-container">
         <button mat-fab extended (click)="utilservice.exportDataToExcel(ppfTable,'PPFCalculator')"> 
             <mat-icon>save_alt</mat-icon>
-            Download
+            Export
         </button>                                
     </div> 
     <div class="description">

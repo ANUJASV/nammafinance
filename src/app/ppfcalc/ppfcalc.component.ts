@@ -1,11 +1,9 @@
 import { Component} from '@angular/core';
 import { Router } from '@angular/router';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import{FormControl,FormGroup,ReactiveFormsModule, Validators,} from '@angular/forms';
 import { UtilService } from '../shared/util.service';
@@ -14,7 +12,7 @@ import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-ppfcalc',
-  imports: [MatIconModule,MatCardModule,NgxChartsModule,ReactiveFormsModule,MatInputModule,MatTableModule,MatTooltipModule,
+  imports: [MatIconModule,MatCardModule,NgxChartsModule,ReactiveFormsModule,MatTableModule,
     MatFormFieldModule,MatSliderModule,MatButtonModule],
   templateUrl: './ppfcalc.component.html',
   styleUrls: ['./ppfcalc.component.css', '../../global-style.css']

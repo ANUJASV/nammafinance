@@ -70,7 +70,7 @@
             <h2>FD Calculator</h2>
             <p>Invest with confidence! Know your FD returns instantly!  Use our FD Calculator to calculate your returns and plan your fixed deposit investments wisely. Secure your future with guaranteed growth!</p>
             <div class="button-container">
-                <button mat-fab extended>Try it Out!</button>                
+                <button mat-fab extended (click)="this.service.navigateToFD()" >Try it Out!</button>                
             </div>
         </div>
         <div class="img-container content">
@@ -83,7 +83,7 @@
             <h2>RD Calculator</h2>
             <p>Grow your savings step by step! Use our RD Calculator  to see how your monthly deposits turn into a secure financial cushion. Turn your monthly savings into a jackpot! Start Now!</p>
             <div class="button-container">
-                <button mat-fab extended>Try it Out!</button>                
+                <button mat-fab extended (click)="this.service.navigateToRD()">Try it Out!</button>                
             </div>
         </div>
         <div class="img-container content">

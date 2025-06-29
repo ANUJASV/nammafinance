@@ -73,6 +73,15 @@ export class UtilService {
     this.router.navigate(['/taxcalculator']);
   }
 
+  navigateToFD(){
+    window.scrollTo(0,0);
+    this.router.navigate(['/fdcalculator']);
+  }
+  navigateToRD(){
+    window.scrollTo(0,0);
+    this.router.navigate(['/rdcalculator']);
+  }
+
   exportDataToExcel(data: any[] = [],calcname:string){
     const worksheet=XLSX.utils.json_to_sheet(data);
     const workbook=XLSX.utils.book_new();

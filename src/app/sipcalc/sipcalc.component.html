@@ -1,6 +1,149 @@
 <section class="calculator">
     <div class="calc-header">
-        <h1>SIP Calculator</h1>
-        <p>Grow your wealth systematically with our SIP Calculator and Turn small savings into big wealth! Calculate your potential returns and build a strong investment portfolio over time. Start small and achieve big financial goals effortlessly. Invest smart, secure your future!</p>
+        <h1><span>Systematic Investment Plan</span> Calculator</h1>
+        <p>Build wealth systematically through mutual fund SIPs. This calculator shows your future value based on monthly contributions, tenure, and expected returns. Perfect for goal-based investments and achieving financial independence step by step.</p>
+    </div>
+    <div class="calculator-container">
+        <mat-card>
+            <mat-card-content>
+                <div class="form">
+                    <div>Monthly Investment (₹)</div>
+                    <div class="input-container">
+                        <mat-slider min="100" max="1000000" step="100">
+                            <input matSliderThumb [formControl]="monthlyinvestment" [value]="monthlyinvestment.value">
+                        </mat-slider>
+                        <input type="text" [formControl]="monthlyinvestment" [value]="monthlyinvestment.value">
+                    </div>
+                    <div>SIP Duration (Yrs)</div>
+                    <div class="input-container">
+                        <mat-slider min="1" max="40" step="1">
+                            <input matSliderThumb [formControl]="investmentperiod" [value]="investmentperiod.value">
+                        </mat-slider>
+                        <input type="text" [formControl]="investmentperiod" [value]="investmentperiod.value">
+                    </div>
+                    <div>Rate Of Interest (% p.a.)</div>
+                    <div class="input-container">
+                        <mat-slider min="1" max="30" step="1">
+                            <input matSliderThumb [formControl]="returnrate" [value]="returnrate.value">
+                        </mat-slider>
+                        <input type="text" [formControl]="returnrate" [value]="returnrate.value">
+                    </div>
+                    <div class="button-container">
+                        <button mat-fab extended (click)="calcinvesment()"> Calculate</button>                                
+                    </div>
+                </div>
+                <form [formGroup]="toggleForm" class="toggleForm">
+                    <div class="toggle-container" (click)="toggleChart()">
+                        <div class="toggle-button" [class.active]="isChecked">
+                            <mat-icon class="icon">show_chart</mat-icon>
+                        </div>
+                        <div class="toggle-button" [class.active]="!isChecked">
+                            <mat-icon class="icon">pie_chart</mat-icon>
+                        </div>
+                    </div>
+                </form>    
+                <div>
+                    <div *ngIf="!isChecked" class="chart">
+                        <div class="textinsidechart">
+                            <span>Maturity Value</span>
+                            <span>₹{{ maturityAmount }}</span>
+                        </div>
+                        <ngx-charts-pie-chart 
+                            [results]="result" 
+                            [view]="utilservice.view" 
+                            [doughnut]="true" 
+                            [scheme]="utilservice.colorScheme">
+                        </ngx-charts-pie-chart>
+                    </div>
+                    <div *ngIf="isChecked" class="linechart-container">
+                        <h3>Maturity Value: ₹ {{ maturityAmount }}</h3>
+                        <ngx-charts-area-chart 
+                            [view]="utilservice.areachartview" 
+                            [results]="linechartresult" 
+                            [xAxis]="true" 
+                            [showXAxisLabel]="true" 
+                            [xAxisLabel]="'Years'" 
+                            [autoScale]="true" 
+                            [gradient]="true" 
+                            [timeline]="true" 
+                            [scheme]="utilservice.customColorScheme">
+                        </ngx-charts-area-chart>
+                    </div>
+                </div>       
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="table-container">
+        <table mat-table [dataSource]="siptable" class="mat-elevation-z8">
+      
+          <!-- Year Column -->
+          <ng-container matColumnDef="year">
+            <th mat-header-cell *matHeaderCellDef> Year </th>
+            <td mat-cell *matCellDef="let element"> {{ element.year }} </td>
+          </ng-container>
+
+          <!-- Opening Balance Column -->
+          <ng-container matColumnDef="openingbalance">
+            <th mat-header-cell *matHeaderCellDef> Opening Balance </th>
+            <td mat-cell *matCellDef="let element"> {{ element.openingbalance | currency:'INR' }} </td>
+          </ng-container>
+      
+          <!-- Invested Amount Column -->
+          <ng-container matColumnDef="investedamount">
+            <th mat-header-cell *matHeaderCellDef> Invested Amount </th>
+            <td mat-cell *matCellDef="let element"> {{ element.investedamount | currency:'INR' }} </td>
+          </ng-container>
+      
+          <!-- Interest Earned Column -->
+          <ng-container matColumnDef="interestEarned">
+            <th mat-header-cell *matHeaderCellDef> Interest Earned </th>
+            <td mat-cell *matCellDef="let element"> {{ element.interestEarned | currency:'INR' }} </td>
+          </ng-container>
+      
+          <!-- Maturity Amount Column -->
+          <ng-container matColumnDef="MaturityAmount">
+            <th mat-header-cell *matHeaderCellDef> Closing Balance </th>
+            <td mat-cell *matCellDef="let element"> {{ element.maturityamt | currency:'INR' }} </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="['year', 'openingbalance', 'investedamount', 'interestEarned', 'MaturityAmount']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['year', 'openingbalance', 'investedamount', 'interestEarned', 'MaturityAmount'];"></tr>
+        </table>
+    </div>
+    <div class="button-container">
+        <button mat-fab extended (click)="utilservice.exportDataToExcel(siptable,'SIPalculator')"> 
+            <mat-icon>save_alt</mat-icon>
+            Export
+        </button>                                
+    </div>
+    <div class="description">
+        <div>
+            <h3>What is SIP?</h3>
+            <p>Systematic Investment Plan (SIP) is a process of investing a fixed sum of money in mutual funds at regular intervals — usually monthly, but it can also be weekly or quarterly.Instead of investing a large amount all at once (lump sum), SIP lets you invest small amounts periodically. This helps build wealth gradually over time through the power of compounding and rupee cost averaging.</p>
+        </div>
+        <div>
+            <h3>How does an SIP work?</h3>
+            <p>An SIP works like a recurring investment, where the amount is auto-debited from your bank account and invested in the mutual fund of your choice. Once the amount is deposited, you get a certain number of units of the mutual fund scheme where you have invested. The number of units that you have invested depends upon the Net Asset Value (NAV) of that particular scheme for that particular day.
+                <br>
+                SIP mutual fund allots you additional units of the scheme with every instalment. As the NAV of the scheme keeps on changing, with the same SIP amount you may buy fewer units when the market is high and more units when the market is low.
+            </p>
+        </div>
+        <div>
+            <h3>Benefits of SIP</h3>
+            <p>Investing in a Systematic Investment Plan (SIP) is a wise choice with many advantages for those seeking to participate in Mutual Funds in a systematic and organised manner.</p>
+            <ul>
+                <li>Disciplined Investment — SIP fosters consistent investing habits by automating regular contributions, removing the temptation to time the market or skip investments.</li>
+                <li>Rupee Cost Averaging — By investing across market ups and downs, SIP helps average out the cost of mutual fund units, reducing the impact of market volatility over time.</li>
+                <li>Power of Compounding — SIP leverages compounding, where returns are reinvested to generate additional earnings, amplifying wealth creation with time and patience.</li>
+                <li>Affordability — SIP requires only a small initial investment, often starting at ₹500 per month, making it accessible to all income groups.</li>
+                <li>Convenience and Flexibility — SIPs are easy to set up and can be customized for frequency, amount, and tenure. Automated bank deductions simplify the process, making investing hassle-free.</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Final Thoughts</h3>
+            <p>In a world where we chase dreams, manage bills, and try to balance today with tomorrow, Systematic Investment Plans (SIPs) quietly do their job — helping you build wealth, one month at a time. You don’t need to be a stock market expert. You don’t need lakhs in your bank account.
+                All you need is the will to start — and the patience to stay.SIP is not a shortcut to riches. It's a slow, steady journey toward financial independence. It's not about "how much" you invest, but <b>"how long and how consistently"</b> you do.
+                </p>
+        </div>
     </div>
 </section>

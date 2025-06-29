@@ -1,0 +1,122 @@
+<section class="calculator">
+    <div class="calc-header">
+        <h1><span>Recurring Deposit</span> Calculator</h1>
+        <p>Plan your monthly savings with a Recurring Deposit. Find out how much you'll earn by regularly depositing a fixed amount. A reliable tool for short to mid-term financial goals with calculated interest and maturity insights.</p>
+    </div>
+    <div class="calculator-container">
+        <mat-card>
+            <mat-card-content>
+                <div class="form">
+                    <div>Monthly Investment (₹)</div>
+                    <div class="input-container">
+                        <mat-slider min="100" max="1000000" step="100">
+                            <input matSliderThumb [formControl]="monthlyInvestment" [value]="monthlyInvestment.value">
+                        </mat-slider>
+                        <input type="text" [formControl]="monthlyInvestment" [value]="monthlyInvestment.value">
+                    </div>
+                    <div>Interest Rate (% p.a) </div>
+                    <div class="input-container">
+                        <mat-slider min="1" max="15" step="1">
+                            <input matSliderThumb [formControl]="rateOfInterest" [value]="rateOfInterest.value">
+                        </mat-slider>
+                        <input type="text" [formControl]="rateOfInterest" [value]="rateOfInterest.value">
+                    </div>
+                    <div>Time Period (Yrs) </div>
+                    <div class="input-container">
+                        <mat-slider min="1" max="10" step="1">
+                            <input matSliderThumb [formControl]="investmentPeriod" [value]="investmentPeriod.value">
+                        </mat-slider>
+                        <input type="text" [formControl]="investmentPeriod" [value]="investmentPeriod.value">
+                    </div>
+                    <div class="button-container">
+                        <button mat-fab extended> Calculate</button>                                
+                    </div>
+                </div>
+                <form [formGroup]="toggleForm" class="toggleForm">
+                    <div class="toggle-container" (click)="toggleChart()">
+                        <div class="toggle-button" [class.active]="isChecked">
+                            <mat-icon class="icon">show_chart</mat-icon>
+                        </div>
+                        <div class="toggle-button" [class.active]="!isChecked">
+                            <mat-icon class="icon">pie_chart</mat-icon>
+                        </div>
+                    </div>
+                </form> 
+                <div>
+                    <div *ngIf="!isChecked" class="chart">
+                        <div class="textinsidechart">
+                            <span>Maturity Amount</span>
+                            <span>₹{{maturityValue}}</span>
+                        </div>
+                        <ngx-charts-pie-chart 
+                            [results]="result" 
+                            [view]="utilservice.view" 
+                            [doughnut]="true" 
+                            [scheme]="utilservice.colorScheme">
+                        </ngx-charts-pie-chart>
+                        <h3>Total Returns: ₹ {{returns}}</h3>
+                    </div>
+                    <div *ngIf="isChecked" class="linechart-container">
+                        <h3>Total Returns: ₹ {{returns}}</h3>
+                        <ngx-charts-area-chart 
+                            [view]="utilservice.areachartview" 
+                            [results]="linechartresult" 
+                            [xAxis]="true" 
+                            [showXAxisLabel]="true" 
+                            [xAxisLabel]="xAxisLabel"
+                            [autoScale]="true" 
+                            [gradient]="true" 
+                            [timeline]="true" 
+                            [scheme]="utilservice.customColorScheme">
+                        </ngx-charts-area-chart>
+                    </div>
+                </div> 
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="table-container">
+        <table mat-table [dataSource]="RDTable" multiTemplateDataRows class="mat-elevation-z8">
+      
+          <!-- Year Column -->
+          <ng-container matColumnDef="Year">
+            <th mat-header-cell *matHeaderCellDef> Year </th>
+            <td mat-cell *matCellDef="let element"> {{ element.Year }} </td>
+          </ng-container>
+
+          <!-- Opening Balance Column -->
+          <ng-container matColumnDef="OpeningBalance">
+            <th mat-header-cell *matHeaderCellDef> Opening Balance </th>
+            <td mat-cell *matCellDef="let element"> {{ element.OpeningBalance | currency:'INR' }} </td>
+          </ng-container>
+
+          <!-- Invested Amount Column -->
+          <ng-container matColumnDef="InvestedAmount">
+            <th mat-header-cell *matHeaderCellDef> Invested Amount </th>
+            <td mat-cell *matCellDef="let element"> {{ element.InvestedAmount | currency:'INR' }} </td>
+          </ng-container>
+      
+          <!-- Interest Earned Column -->
+          <ng-container matColumnDef="InterestEarned">
+            <th mat-header-cell *matHeaderCellDef> Interest Earned </th>
+            <td mat-cell *matCellDef="let element"> {{ element.InterestEarned | currency:'INR' }} </td>
+          </ng-container>
+      
+          <!-- Maturity Amount Column -->
+          <ng-container matColumnDef="MaturityAmount">
+            <th mat-header-cell *matHeaderCellDef> Closing Balance </th>
+            <td mat-cell *matCellDef="let element"> {{ element.MaturityAmount | currency:'INR' }} </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="['Year', 'OpeningBalance', 'InvestedAmount','InterestEarned', 'MaturityAmount']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['Year', 'OpeningBalance', 'InvestedAmount', 'InterestEarned', 'MaturityAmount'];"></tr>
+
+        </table>
+        
+    </div>
+    <div class="button-container">
+        <button mat-fab extended (click)="utilservice.exportDataToExcel(RDTable,'RDCalculator')"> 
+            <mat-icon>save_alt</mat-icon>
+            Export
+        </button>                                
+    </div> 
+</section>

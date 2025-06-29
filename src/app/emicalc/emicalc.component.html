@@ -1,36 +1,199 @@
 <section class="calculator">
     <div class="calc-header">
-        <h1>EMI Calculator</h1>
-        <p>Plan your finances wisely and Make borrowing stress-free with our EMI Calculator! Know your monthly installments instantly 
-            and plan your finances with confidence. Stay ahead of your loans, reduce financial strain, and take charge of your
-             future today!
-        </p>
+        <h1><span>Equated Monthly Installment </span> Calculator</h1>
+        <p>Understand your loan obligations with ease. Enter your loan amount, interest rate, and tenure to get your monthly EMI, total repayment, and interest. Great for home, car, or personal loan planning with detailed repayment breakdowns.</p>
     </div>
     <div class="calculator-container">
         <mat-card>
             <mat-card-content>
                 <div class="form">
                     <div>Loan Amount (₹)</div>
-                    <div><input type="text" [formControl]="loanAmount"> </div>
-                    <div>Rate Of Interest (% p.a.)</div>
-                    <div><input type="text" [formControl]="interestRate"> </div>
-                    <div>Loan Tenure</div>
-                    <div><input type="text" [formControl]="tenure"> </div>
+                    <div class="input-container">
+                        <mat-slider min="500" max="150000" step="500">
+                            <input matSliderThumb [formControl]="loanAmount" [value]="loanAmount.value">
+                        </mat-slider>
+                        <input type="text" [formControl]="loanAmount" [value]="loanAmount.value">
+                    </div>
+                    <div>Loan Tenure
+                        <select [formControl]="tenureType">
+                            <option>Yr</option>
+                            <option>M</option>
+                        </select> </div>
+                    <div class="input-container">
+                        <mat-slider min="15" max="50" step="1">
+                            <input matSliderThumb [formControl]="tenure" [value]="tenure.value">
+                        </mat-slider>
+                        <input type="text" [formControl]="tenure" [value]="tenure.value">
+                    </div>
+                    <div>Rate of interest (% p.a) </div>
+                    <div class="input-container">
+                        <mat-slider min="1" max="50" step="1">
+                            <input matSliderThumb [formControl]="interestRate" [value]="interestRate.value">
+                        </mat-slider>
+                        <input type="text" [formControl]="interestRate" [value]="interestRate.value">
+                    </div>
                     <div class="button-container">
-                        <button (click)="calcFlatRate()">Calculate Now  → </button>
+                        <button mat-fab extended (click)="calcFlatRate()"> Calculate</button>                                
                     </div>
                 </div>
-                <div *ngIf="loanAmt>0 && totalInterest>0 && repaymentAmt>0" class="chart">
-                    <div class="textinsidechart">
-                        <span>Repayment Amount</span>
-                        <span>₹{{repaymentAmt}}</span>
+                <form [formGroup]="toggleForm" class="toggleForm">
+                    <div class="toggle-container" (click)="toggleChart()">
+                        <div class="toggle-button" [class.active]="isChecked">
+                            <mat-icon class="icon">show_chart</mat-icon>
+                        </div>
+                        <div class="toggle-button" [class.active]="!isChecked">
+                            <mat-icon class="icon">pie_chart</mat-icon>
+                        </div>
                     </div>
-                    <ngx-charts-pie-chart [results]="result" [view]="utilservice.view" [doughnut]=true [scheme]="utilservice.colorScheme" >
-                    </ngx-charts-pie-chart>
-                </div>
+                </form> 
+                <div>
+                    <div *ngIf="!isChecked" class="chart">
+                        <div class="textinsidechart">
+                            <span>Repay Amount</span>
+                            <span>₹{{ repaymentAmt }}</span>
+                        </div>
+                        <ngx-charts-pie-chart 
+                            [results]="result" 
+                            [view]="utilservice.view" 
+                            [doughnut]="true" 
+                            [scheme]="utilservice.colorScheme">
+                        </ngx-charts-pie-chart>
+                        <h3>Monthly EMI: ₹ {{emi}}</h3>
+                    </div>
+                    <div *ngIf="isChecked" class="linechart-container">
+                      <h3>Monthly EMI: ₹ {{emi}}</h3>
+                      <ngx-charts-area-chart 
+                          [view]="utilservice.areachartview" 
+                          [results]="linechartresult" 
+                          [xAxis]="true" 
+                          [showXAxisLabel]="true" 
+                          [xAxisLabel]="xAxisLabel"
+                          [autoScale]="true" 
+                          [gradient]="true" 
+                          [timeline]="true" 
+                          [scheme]="utilservice.customColorScheme">
+                      </ngx-charts-area-chart>
+                  </div>
+                </div>               
             </mat-card-content>
         </mat-card>
     </div>
+    <div class="table-container">
+        <table mat-table [dataSource]="emiTable" multiTemplateDataRows  class="mat-elevation-z8">
+      
+          <!-- Year Column -->
+          <ng-container matColumnDef="year">
+            <th mat-header-cell *matHeaderCellDef> Year </th>
+            <td mat-cell *matCellDef="let element"> <mat-icon (click)="toggleExpand(element.year)">
+                {{ expandedYear === element.year ? 'indeterminate_check_box' : 'add_box' }} </mat-icon>
+                {{ element.year }} </td>
+          </ng-container>
+
+          <!-- Principal Amount Column -->
+          <ng-container matColumnDef="PrincipalAmount">
+            <th mat-header-cell *matHeaderCellDef> Principal Amount </th>
+            <td mat-cell *matCellDef="let element"> {{ element.principal | currency:'INR' }} </td>
+          </ng-container>
+      
+          <!-- Interest Amount Column -->
+          <ng-container matColumnDef="InterestAmount">
+            <th mat-header-cell *matHeaderCellDef> Interest Amount </th>
+            <td mat-cell *matCellDef="let element"> {{ element.interest | currency:'INR' }} </td>
+          </ng-container>
+      
+          <!-- Total Payment Column -->
+          <ng-container matColumnDef="TotalPayment">
+            <th mat-header-cell *matHeaderCellDef> Total Payment </th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalpayment | currency:'INR' }} </td>
+          </ng-container>
+      
+          <!-- Balance Column -->
+          <ng-container matColumnDef="Balance">
+            <th mat-header-cell *matHeaderCellDef> Balance </th>
+            <td mat-cell *matCellDef="let element"> {{ element.balance | currency:'INR' }} </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="['year', 'PrincipalAmount', 'InterestAmount', 'TotalPayment', 'Balance']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['year', 'PrincipalAmount', 'InterestAmount', 'TotalPayment', 'Balance'];"></tr>
+
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="5">
+              <table mat-table [dataSource]="element.monthdata" class="inner-table mat-elevation-z2">
+        
+                <ng-container matColumnDef="Month">
+                  <th mat-header-cell *matHeaderCellDef> Month </th>
+                  <td mat-cell *matCellDef="let row"> {{ row.month }} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="PrincipalAmount">
+                  <th mat-header-cell *matHeaderCellDef> PrincipalAmount </th>
+                  <td mat-cell *matCellDef="let row"> {{ row.principalamtpermonth | currency:'INR' }} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="InterestAmount">
+                  <th mat-header-cell *matHeaderCellDef> InterestAmount </th>
+                  <td mat-cell *matCellDef="let row"> {{ row.interestpermonth | currency:'INR' }} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="TotalPayment">
+                  <th mat-header-cell *matHeaderCellDef> TotalPayment </th>
+                  <td mat-cell *matCellDef="let row"> {{ row.totalpay | currency:'INR' }} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="['Month', 'PrincipalAmount', 'InterestAmount', 'TotalPayment'];"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['Month', 'PrincipalAmount', 'InterestAmount', 'TotalPayment'];"></tr>
+              </table>
+            </td>
+          </ng-container>        
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" [class.hidden]="expandedYear !== row.year"></tr>
+        </table>
+    </div>
+    <div class="button-container">
+      <button mat-fab extended (click)="utilservice.exportDataToExcel(emiTable,'EMICalculator')"> 
+          <mat-icon>save_alt</mat-icon>
+          Export
+      </button>                                
+    </div> 
+  <div class="description">
+    <div>
+      <h3>What is EMI?</h3>
+      <p>EMI (Equated Monthly Installment) is a fixed monthly payment made to repay a loan. It includes both the principal and interest. EMIs make large purchases like homes, cars, or education affordable by breaking them into smaller, manageable payments. They help with budgeting, offer flexible repayment options, and can improve credit scores when paid on time. It's a smart way to meet financial goals without straining your savings.</p>
+    </div>
+    <div>
+      <h3>How an Equated Monthly Installment (EMI) works? </h3>
+      <p>EMIs differ from variable payment plans, in which the borrower can pay higher amounts at his or her discretion. In EMI plans borrowers are usually only allowed one fixed payment amount each month.
+        <br>
+        The benefit of an EMI for borrowers is that they know precisely how much money they will need to pay toward their loan each month, which can make personal budgeting easier. The benefit to lenders (or investors the loan is sold to) is that they can count on a steady, predictable income stream from the loan interest.</p>
+    </div>
+    <div>
+      <h3>Types of EMI Calculator</h3>
+      <ul>
+        <li>Flat Rate Method</li>
+        <li>Reducing Balance Method</li>
+      </ul>
+    </div>
+    <div>
+      <h3>How is EMI deducted from a credit card?</h3>
+      <p>As soon as you purchase something on a credit card with an EMI option (that is, doesn't demand payment in full each month), your card's available credit limit is reduced by the total cost of the goods or service. The EMI on credit cards then works much like a home loan or a personal loan: You pay back the principal and interest each month, gradually reducing your debt over some time until you pay it off in full. EMI is deducted from a credit card using the reduce-balance method.</p>
+    </div>
+    <div>
+      <h3>Benefits of EMI</h3>
+      <p>Why EMI is a Smart Financial Tool: Key Benefits</p>
+      <ul>
+        <li>Buy Now, Pay Later – EMI makes it possible to purchase high-cost items like homes, vehicles, or gadgets without needing the entire amount upfront.</li>
+        <li>No Financial Strain – By breaking a large expense into manageable monthly installments, EMI keeps your monthly budget balanced.</li>
+        <li>Zero or Low Interest Options – Many retailers and banks offer 0% or low-interest EMI plans, making high-value purchases even more attractive.</li>
+        <li>Fixed & Predictable Payments – EMIs are fixed over the tenure, helping you plan your monthly expenses with ease and certainty.</li>
+        <li>Access to Premium Goods – EMI unlocks access to better-quality products, services, or education that may otherwise be financially out of reach.</li>
+        <li>Build Credit History – Timely EMI payments positively impact your credit score, improving your eligibility for future loans.</li>
+        <li>Flexible Tenure Options – Choose a repayment period that suits your financial comfort—shorter for quicker repayment or longer for smaller installments.</li>
+        <li>Available Across Products & Services – From electronics to travel, healthcare to education, EMI is widely available and accepted across sectors.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Final Thoughts</h3>
+      <p>EMI is a practical and empowering financial tool that helps bridge the gap between aspirations and affordability. Whether you're buying a home, funding education, or simply upgrading your lifestyle, EMIs offer a disciplined and structured way to manage large expenses without derailing your budget.
+
+        However, it's important to borrow responsibly—always assess your repayment capacity, read the fine print, and avoid overcommitting. Used wisely, EMIs can support financial growth, convenience, and creditworthiness in the long run.</p>
+    </div>
+  </div>      
 </section>
-
-

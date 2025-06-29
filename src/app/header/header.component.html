@@ -6,8 +6,7 @@
         <span (click)="this.service.navigateToHome()" class="nav">Home</span>
         <span class="nav" (mouseenter)="menuOpen = true" (mouseleave)="menuOpen = false">
             Calculators
-            <div class="menu-container" *ngIf="menuOpen">
-                
+            <div class="menu-container" *ngIf="menuOpen">            
                 <!-- Mutual Fund Calculators -->
                 <div class="menu-card">
                     <h3 class="menu-heading">Mutual Fund Calculators</h3>
@@ -62,4 +61,21 @@
         <span class="nav">Contact us</span>
         <span class="nav">FAQ</span>
     </div>
+    <div class="nav-container mob">
+        <mat-icon (click)="showhide()">menu</mat-icon>
+    </div>
+</div>
+<div class="displaymenu" *ngIf="displaymenu">
+    <div class="close-icon">
+        <mat-icon (click)="showhide()">close</mat-icon>
+    </div>
+    <span class="nav" (click)="this.service.navigateToHome(); showhide()">Home</span>
+    <span class="line"></span>
+    <span class="nav" (click)="showhide()">Calculators</span>
+    <span class="line"></span>
+    <span class="nav" (click)="showhide()">About</span>
+    <span class="line"></span>
+    <span class="nav" (click)="showhide()">Contact us</span>
+    <span class="line"></span>
+    <span class="nav" (click)="showhide()">FAQ</span>
 </div>

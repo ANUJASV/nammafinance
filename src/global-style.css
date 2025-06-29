@@ -4,8 +4,15 @@
 .calculator{
     padding: 3rem 7rem;
 }
-h1{
+h1, .chart h3{
     margin: 0;
+    text-align: center;
+}
+h1 span{
+    color: #007bff;
+}
+.calc-header p{
+    padding: 1rem 0rem;
 }
 .calculator-container{
     display: flex;
@@ -20,6 +27,9 @@ mat-card-content{
     flex-direction: row;
     column-gap: 50px;
 }
+mat-slider{
+    width: 100%;
+}
 .form{
     flex: 1;
     display: flex;
@@ -32,18 +42,20 @@ mat-card-content{
     justify-content: space-between;
     column-gap: 15px;
 }
-input:focus {
+input:focus, select:focus {
     border: 2px solid #043873 !important;
-    outline: none !important; /* Remove default outline */
+    outline: none !important; 
   }
-.input-container input{
+.input-container input, .dropdown{
     width: 120px;
     border-radius: 40px;
     border: 1px solid;
     text-align: center;
     height: 40px;
 }
-
+select{
+    border-radius: 40px;
+}
 .singleinput-container{
     display: flex;
     justify-content: space-between;
@@ -62,6 +74,16 @@ button{
     border: none;
     padding: 20px;
     font-size: medium;
+    cursor: pointer;
+}
+.proceed-container{
+    text-align: end;
+    padding-top: 3rem;
+    font-size: larger;
+    font-weight: 600;
+}
+.proceed-container a{
+    color: #007bff;
     cursor: pointer;
 }
 .chart{
@@ -84,8 +106,8 @@ button{
     font-weight: bold;
 }
 p, ul{
-    font-size: 15px;
-    font-weight: 300;
+    font-size: large;
+    font-weight: 200;
 }
 .toggle-container {
     width: 60px;
@@ -126,11 +148,26 @@ p, ul{
     align-items: center;
   }
 
+  .table-container mat-icon{
+    position: relative;
+    top: 5px;
+    padding-right: 10px;
+  }
+  .hidden {
+    display: none;
+  }
+
 @media (min-width:768px){
+    h1{
+        font-size: 2rem;
+    }
     mat-card{
         min-width: 400px;
         padding: 1rem;
     }
+    .form{
+        min-width: 20rem;
+    } 
     .toggleForm{
         position: absolute;
         right: 0;
@@ -142,6 +179,11 @@ p, ul{
         display: flex;
         justify-content: center;
       }
+    .income-grid{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 90px;
+    }
 }
 @media(max-width:768px){
     .calculator{
@@ -154,7 +196,7 @@ p, ul{
         display: flex;
         flex-direction: column;
         row-gap: 10px;
-    }    
+    }       
     .input-container input{
         width: 100px;
     }
@@ -171,9 +213,16 @@ p, ul{
         font-size: 15px;
         font-weight: 500;
     }
-    .table-container{
+    .table-container,mat-tab-group{
         width: 20rem;
         margin: 20px auto;
         overflow-x: auto;
     }
+    .singleinput-container .tag{
+        max-width: 11rem;
+    }
+    .singleinput-container mat-icon{
+        font-size: 20px;
+    }
 }
+
