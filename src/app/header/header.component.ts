@@ -3,6 +3,8 @@ import { UtilService } from '../shared/util.service';
 import { MatCardModule} from '@angular/material/card'
 import {CommonModule} from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +14,12 @@ import {MatIconModule} from '@angular/material/icon';
 })
 export class HeaderComponent {
 
-  constructor(public service:UtilService){}
+  isHomePage=false;
+
+  constructor(public service:UtilService, router:Router){
+    router.events.pipe(filter(event=> event instanceof NavigationEnd))
+    .subscribe((event:any)=>this.isHomePage=event.urlAfterRedirects === '/' || event.urlAfterRedirects === '/home'
+  )};
 
   menuOpen = false;
   displaymenu=false;

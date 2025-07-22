@@ -10,7 +10,7 @@
                 <!-- Mutual Fund Calculators -->
                 <div class="menu-card">
                     <h3 class="menu-heading">Mutual Fund Calculators</h3>
-                    <mat-card class="inner-card">
+                    <mat-card class="inner-card" [ngClass]="!isHomePage? 'blue-text':''">
                         <p>CAGR (Compound Annual Growth Rate)</p>
                         <p>SWP (Systematic Withdrawal Plan)</p>
                         <p>SIP (Systematic Investment Plan)</p>
@@ -22,7 +22,7 @@
                 <!-- Deposit Calculators -->
                 <div class="menu-card">
                     <h3 class="menu-heading">Deposit Calculators</h3>
-                    <mat-card class="inner-card">
+                    <mat-card class="inner-card" [ngClass]="!isHomePage? 'blue-text':''">
                         <p>Fixed Deposit</p>
                         <p>Recurring Deposit</p>
                         <p>Compound Interest</p>
@@ -34,7 +34,7 @@
                 <!-- Retirement Calculators -->
                 <div class="menu-card">
                     <h3 class="menu-heading">Retirement Calculators</h3>
-                    <mat-card class="inner-card">
+                    <mat-card class="inner-card" [ngClass]="!isHomePage? 'blue-text':''">
                         <p>Retirement</p>
                         <p>PPF (Public Provident Fund)</p>
                         <p>NSC (National Savings Certificate)</p>
@@ -48,7 +48,7 @@
                 <!-- Miscellaneous -->
                 <div class="menu-card">
                     <h3 class="menu-heading">Miscellaneous</h3>
-                    <mat-card class="inner-card">
+                    <mat-card class="inner-card" [ngClass]="!isHomePage? 'blue-text':''">
                         <p>Income Tax</p>
                         <p>Inflation</p>
                         <p>HRA (House Rent Allowance)</p>
